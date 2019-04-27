@@ -120,6 +120,23 @@ function print_uid(uid)
 
 }
 
+function compare_uid(uid1, uid2) {
+   if (uid1 == undefined || uid2 == undefined || uid1.length != uid2.length) {
+      return false;
+   }
+   for (var i = 0; i < uid1.length; i++) {
+      if (uid1[i] != uid2[i]) {
+         return false;
+      }
+   }
+   return true;
+
+}
+
+var no_card_count = 0;
+const no_card_count_limit = 2; // 1 second
+var last_scan_uid;
+
 setInterval(function() {
 
     //# reset card
@@ -129,15 +146,20 @@ setInterval(function() {
     let response = mfrc522.findCard();
     if (!response.status) {
         console.log("No Card");
+        if (++no_card_count == no_card_count_limit) {
+           // reset the last scanned uid to allow re-scan of the card
+           last_scan_uid = undefined;
+           no_card_count = 0;
+        }
         return;
     }
     
     // Time of the scan in seconds UTC 
     var nowTimeSec = Math.floor(new Date().getTime() / 1000);    
-    
 
-    scanSound(0);
-    console.log("Card detected, CardType: " + response.bitSize);
+    // Only scan the same tag once.  It must be removed for a period of time before
+    // it can be scanned again.  New tags are scanned immediately.
+    
 
     //# Get the UID of the card
     response = mfrc522.getUid();
@@ -146,8 +168,19 @@ setInterval(function() {
         console.log("UID Scan Error");
         return;
     }
-    //# If we have the UID, continue
     const uid = response.data;
+    
+       if (compare_uid(last_scan_uid, uid)) {
+          console.log("Multiple scan");
+          return;
+       }  else {
+          last_scan_uid = uid;
+       }
+
+    scanSound(0);
+    console.log("Card detected, CardType: " + response.bitSize);
+
+    //# If we have the UID, continue
     console.log("Card read UID (%d): %s %s %s %s", uid.length, 
         uid[0].toString(16), uid[1].toString(16), uid[2].toString(16), uid[3].toString(16));
 
