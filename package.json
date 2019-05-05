@@ -1,0 +1,34 @@
+{
+  "name": "rfid-scanner-node",
+  "version": "1.0.0",
+  "description": "Send RFID tag data to the EOS blockchain",
+  "main": "rfid_scanner_eos_rpi.js",
+  "dependencies": {
+    "eosjs": "^20.0.0",
+    "log-timestamp": "^0.3.0",
+    "mfrc522-rpi": "^1.1.0",
+    "node-fetch": "^2.4.0",
+    "rpio-rtttl-piezo": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EOSIoT/rfid-scanner-node.git"
+  },
+  "keywords": [
+    "RFID",
+    "IoT",
+    "EOS",
+    "Blockchain",
+    "RaspberryPi"
+  ],
+  "author": "Evan Ross",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EOSIoT/rfid-scanner-node/issues"
+  },
+  "homepage": "https://github.com/EOSIoT/rfid-scanner-node#readme"
+}
