@@ -45,7 +45,7 @@ function report_scan(devid, uid, time) {
      }]
    }, {
      blocksBehind : 3,
-    expireSeconds : 30,
+     expireSeconds : 30,
    });
    console.dir(result);
   })();
@@ -64,10 +64,10 @@ function getUniqueId() {
    if (intf != undefined) {
       for (var s in intf) {
          var mac = intf[s].mac;
-         console.log(mac);
+         //console.log(mac);
          if (mac != undefined) {
             var smac = mac.split(':');
-            console.log(parseInt(smac[0],16), smac[1], smac[2], smac[3], smac[0] << 24);
+            //console.log(parseInt(smac[0],16), smac[1], smac[2], smac[3], smac[0] << 24);
             uniqueId = 
                (parseInt(smac[0],16) << 24) | 
                (parseInt(smac[1],16) << 16) |
@@ -104,20 +104,18 @@ console.log("Please put chip or keycard in the antenna inductive zone!");
 console.log("Press Ctrl-C to stop.");
 
 function scanSound(type) {
- var rtttl = 'scan:d=4,o=6,b=200:';
- if (type == 0) rtttl += 'g';
- else rtttl += 'g,a';
+  var rtttl = 'scan:d=4,o=6,b=200:';
+  if (type == 0) {
+     rtttl += 'g';
+  } else { 
+     rtttl += 'g,a';
+  }
  
   piezo.play({
     pwmOutputPin: 12,
     rtttl: rtttl,
     dutyCycle : 8,
   });
-}
-
-function print_uid(uid)
-{
-
 }
 
 function compare_uid(uid1, uid2) {
@@ -130,7 +128,6 @@ function compare_uid(uid1, uid2) {
       }
    }
    return true;
-
 }
 
 var no_card_count = 0;
@@ -160,7 +157,6 @@ setInterval(function() {
     // Only scan the same tag once.  It must be removed for a period of time before
     // it can be scanned again.  New tags are scanned immediately.
     
-
     //# Get the UID of the card
     response = mfrc522.getUid();
     if (!response.status) {
@@ -170,12 +166,12 @@ setInterval(function() {
     }
     const uid = response.data;
     
-       if (compare_uid(last_scan_uid, uid)) {
-          console.log("Multiple scan");
-          return;
-       }  else {
-          last_scan_uid = uid;
-       }
+    if (compare_uid(last_scan_uid, uid)) {
+       console.log("Multiple scan");
+       return;
+    } else {
+       last_scan_uid = uid;
+    }
 
     scanSound(0);
     console.log("Card detected, CardType: " + response.bitSize);
