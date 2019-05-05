@@ -8,7 +8,7 @@
     "log-timestamp": "^0.3.0",
     "mfrc522-rpi": "^1.1.0",
     "node-fetch": "^2.4.0",
-    "rpio-rtttl-piezo": "^1.0.0"
+    "rpio-rtttl-piezo": "git+https://github.com/nochecksum/rpio-rtttl-piezo.git#1fa84dea57138659a461606fa981286748f2b203"
   },
   "devDependencies": {},
   "scripts": {

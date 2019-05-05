@@ -1,4 +1,4 @@
-## RFID Scanner Software for Blockchain
+## RFID Scanner Device Software for Blockchain
 
 This software package enables scanning and transmission of RFID tag data to the EOS blockchain.
 
