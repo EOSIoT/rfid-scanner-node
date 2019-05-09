@@ -22,7 +22,8 @@ const { TextEncoder, TextDecoder } = require('util');
 const defaultPrivateKey = "5KfjeKpRzAu3DVsk7iHENozkfaRRthTcpEJsk4jQcBPQopSHtX5";
 const signatureProvider = new JsSignatureProvider([defaultPrivateKey]);
 
-const rpc = new JsonRpc('http://jungle2.cryptolions.io:80', { fetch });
+//const rpc = new JsonRpc('http://jungle2.cryptolions.io:80', { fetch });
+const rpc = new JsonRpc('http://eos.eoscafeblock.com', { fetch });
 const api = new Api({ rpc, signatureProvider, textDecoder:new TextDecoder(), textEncoder: new TextEncoder()});
 
 function report_scan(devid, uid, time) {
