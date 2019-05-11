@@ -39,7 +39,7 @@ Install project dependencies:
 
 ### Using
 
-Run the application with super-user priviledges.  Take note of the unique device ID to reference the scanner's data in the [demo web application](http://eosiot.io/rfid).
+Run the application with super-user privileges.  Take note of the unique device ID to reference the scanner's data in the [demo web application](http://eosiot.io/rfid).
 
 If the application was setup correctly, you will see the results of an initial blockchain *info* request, showing that communication with the designated EOS API endpoint is working.
 
@@ -47,29 +47,45 @@ Example:
 
 ```
 pi@raspberrypi:~/rfid-scanner-node $ sudo node  rfid_scanner_eos_rpi.js
-[2019-05-05T15:38:32.712Z] Device ID: 942140182 (0x3827eb16)
-[2019-05-05T15:38:32.713Z] Blockchain:
-[2019-05-05T15:38:32.772Z] scanning...
-[2019-05-05T15:38:32.772Z] Please put chip or keycard in the antenna inductive zone!
-[2019-05-05T15:38:32.773Z] Press Ctrl-C to stop.
-[2019-05-05T15:38:33.234Z] { server_version: '7cef0c57',
-  chain_id: 'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473',
-  head_block_num: 27133220,
-  last_irreversible_block_num: 27132893,
-  last_irreversible_block_id: '019e03dd5a04a5cb6bfec13e39a253475f42e29f0910ac1ab3571f4869c2d5c6',
-  head_block_id: '019e0524b996bf02625abf833bba78b953fdc116831e2cf778937b664ab0fad0',
-  head_block_time: '2019-05-05T15:38:33.000',
-  head_block_producer: 'gnuargentina',
+[2019-05-11T19:32:07.168Z] Device ID: 942140182 (0x3827eb16)
+[2019-05-11T19:32:07.177Z] Blockchain:
+[2019-05-11T19:32:07.220Z] scanning...
+[2019-05-11T19:32:07.221Z] Please put chip or keycard in the antenna inductive zone!
+[2019-05-11T19:32:07.221Z] Press Ctrl-C to stop.
+[2019-05-11T19:32:07.402Z] { server_version: '448287d5',
+  chain_id: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+  head_block_num: 57633625,
+  last_irreversible_block_num: 57633298,
+  last_irreversible_block_id: '036f6a124baa3eae12b40fdff2fe53f7796663f79b17559636a750bd1a25fbdc',
+  head_block_id: '036f6b590d4b20385337d91dc688c46ac92d49bc75a6e0414f48da935c00d94b',
+  head_block_time: '2019-05-11T19:32:07.000',
+  head_block_producer: 'eos42freedom',
   virtual_block_cpu_limit: 200000000,
-  virtual_block_net_limit: 524288000,
-  block_cpu_limit: 199900,
-  block_net_limit: 524288,
-  server_version_string: 'v1.8.0-rc1',
-  fork_db_head_block_num: 27133220,
-  fork_db_head_block_id: '019e0524b996bf02625abf833bba78b953fdc116831e2cf778937b664ab0fad0' }
-[2019-05-05T15:38:33.304Z] No Card
-[2019-05-05T15:38:33.822Z] No Card
-[2019-05-05T15:38:34.341Z] No Card
+  virtual_block_net_limit: 1048576000,
+  block_cpu_limit: 181613,
+  block_net_limit: 1044592,
+  server_version_string: 'v1.7.3' }
+[2019-05-11T19:32:07.746Z] No Card
+[2019-05-11T19:32:08.266Z] No Card
+[2019-05-11T19:32:08.787Z] No Card
+[2019-05-11T19:32:26.074Z] Card detected, CardType: undefined
+[2019-05-11T19:32:26.075Z] Card read UID (5): 99 2 f6 5c
+[2019-05-11T19:32:26.083Z] Card Memory Capacity: 8
+[2019-05-11T19:32:26.096Z] Block: 8 Data: 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[2019-05-11T19:32:28.864Z] No Card
+{ transaction_id: 'e8672e52f521c003b6d9b767acc1ce2f8f967ae336a3cfd294fb2b8d89ab9d03',
+  processed:
+   { id: 'e8672e52f521c003b6d9b767acc1ce2f8f967ae336a3cfd294fb2b8d89ab9d03',
+     block_num: 57633669,
+     block_time: '2019-05-11T19:32:29.000',
+     producer_block_id: null,
+     receipt: { status: 'executed', cpu_usage_us: 345, net_usage_words: 15 },
+     elapsed: 345,
+     net_usage: 120,
+     scheduled: false,
+     action_traces: [ [Object] ],
+     except: null } }
+[2019-05-11T19:32:29.382Z] No Card
 ```
 
 
