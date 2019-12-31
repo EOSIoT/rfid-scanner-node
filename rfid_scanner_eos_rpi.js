@@ -22,8 +22,21 @@ const { TextEncoder, TextDecoder } = require('util');
 const defaultPrivateKey = "5KfjeKpRzAu3DVsk7iHENozkfaRRthTcpEJsk4jQcBPQopSHtX5";
 const signatureProvider = new JsSignatureProvider([defaultPrivateKey]);
 
-//const rpc = new JsonRpc('http://jungle2.cryptolions.io:80', { fetch });
-const rpc = new JsonRpc('http://eos.eoscafeblock.com', { fetch });
+// Specify an EOS blockchain API endpoint to connect to.
+
+// Connect to the EOS Jungle2.0 Testnet. The testnet performs and operates
+// similarly to the mainnet but with unlimited free-to-access resources.  Because
+// resources are free, this network is operated on a best-effort basis.
+const rpc = new JsonRpc('http://jungle2.cryptolions.io', { fetch });
+
+// The EOS mainnet is the flagship network that rewards block miners (producers)
+// with tokens that exchange for real fiat currency - so there is incentive to maintain this
+// network.  However because there is real value in the tokens powering this network, 
+// resources are scarce and come with a cost.  Currently this cost is too high (CPU).
+// We will be using the testnet for demonstration until the EOS core group figures out a 
+// solution to the CPU crunch.
+//const rpc = new JsonRpc('http://eos.eoscafeblock.com', { fetch });
+
 const api = new Api({ rpc, signatureProvider, textDecoder:new TextDecoder(), textEncoder: new TextEncoder()});
 
 function report_scan(devid, uid, time) {
@@ -31,7 +44,7 @@ function report_scan(devid, uid, time) {
   (async () => {
     const result = await api.transact({
       actions : [{
-        account :  'eosiot11rfid',
+        account :  'eosiot12rfid',
         name : 'submit',
         authorization: [{
           actor: 'eosiot11node',
