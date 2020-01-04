@@ -1,6 +1,7 @@
 "use strict";
 const mfrc522 = require("mfrc522-rpi");
 const piezo =  require('rpio-rtttl-piezo');
+const ngeohash = require('ngeohash');
 
 require('log-timestamp');
 
@@ -39,13 +40,19 @@ const rpc = new JsonRpc('http://jungle2.cryptolions.io', { fetch });
 
 const api = new Api({ rpc, signatureProvider, textDecoder:new TextDecoder(), textEncoder: new TextEncoder()});
 
+// Device geohash encoded location (lat, lon only) string.
+// The application tries to look it up using an IP location resolving service.
+// This WILL be highly innacurate and won't pinpoint your actual location.
+var geohash = "";
+
+
 function report_scan(devid, uid, time) {
 
   (async () => {
     const result = await api.transact({
       actions : [{
         account :  'eosiot12rfid',
-        name : 'submit',
+        name : 'submitgh',
         authorization: [{
           actor: 'eosiot11node',
           permission : 'scan',
@@ -55,6 +62,7 @@ function report_scan(devid, uid, time) {
           device_id: devid,
           node_time: time,
           tag_uid : uid,
+          geohash : geohash,
         },
      }]
    }, {
@@ -65,6 +73,29 @@ function report_scan(devid, uid, time) {
   })();
 
 }
+
+// Location IP geolocation provider.  Needs to produce latitude and longitude.
+const locationLookupURL = "https://extreme-ip-lookup.com/json/";
+
+const getLoc = async url => {
+  try {
+    const response = await fetch(url);
+    const json = await response.json();
+    console.log("Location response:");
+    console.log(json);
+    if (json != undefined && json.status == "success" && json.lat != undefined) {
+	geohash = await ngeohash.encode(parseFloat(json.lat), parseFloat(json.lon));
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    console.log("Device's location (geohash encoded): " + geohash);
+    // Start the RFID scan loop
+    startScanLoop();
+  }
+  
+};
+
 
 
 // Get a unique 32-bit device identifier
@@ -98,8 +129,8 @@ function getUniqueId() {
 }
 
 var UniqueId = getUniqueId();
-console.log("Device ID: " + UniqueId + " (0x" + UniqueId.toString(16)+")");
 
+console.log("Device ID: " + UniqueId + " (0x" + UniqueId.toString(16)+")");
 
 //# Init WiringPi with SPI Channel 0
 mfrc522.initWiringPi(0);
@@ -112,10 +143,8 @@ async function print_chain() {
 
 print_chain();
 
-//# This loop keeps checking for chips. If one is near it will get the UID and authenticate
-console.log("scanning...");
-console.log("Please put chip or keycard in the antenna inductive zone!");
-console.log("Press Ctrl-C to stop.");
+// Get the location and trigger the scan loop polling process.
+getLoc(locationLookupURL);
 
 function scanSound(type) {
   var rtttl = 'scan:d=4,o=6,b=200:';
@@ -148,7 +177,17 @@ var no_card_count = 0;
 const no_card_count_limit = 2; // 1 second
 var last_scan_uid;
 
-setInterval(function() {
+function startScanLoop() {
+    //# This loop keeps checking for chips. If one is near it will get the UID and authenticate
+    console.log("scanning...");
+    console.log("Please put chip or keycard in the antenna inductive zone!");
+    console.log("Press Ctrl-C to stop.");
+    setInterval(scanLoop, 500);
+}
+
+// Main RFID scanner loop - performs one scan attempt.
+// Must be called periodically, e.g. setInterval(scanLoop, 500);
+function scanLoop() {
 
     //# reset card
     mfrc522.reset();
@@ -216,4 +255,4 @@ setInterval(function() {
     // Transact with blockchain
     report_scan(UniqueId, uid, nowTimeSec);
 
-}, 500);
+}
