@@ -8,6 +8,8 @@ The software is built in Node.js and ready to run on a **Raspberry Pi 2 or 3**. 
 
 The EOS blockchain requires no transaction fees, is fast (inclusion within 2 seconds typical), and has an easy to use and globally accessible API.  
 
+**Update**: The scanner device obtains its current location on Planet Earth with a crude IP geolocation lookup at the start of the application.  The location is geohashed and combined with the scanned tag data into a data record.  The location of the scanned tag, along with the tag data, is viewable on a map in the rfid-html web application.
+
 
 ### Prerequisites
 
