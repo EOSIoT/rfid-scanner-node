@@ -1,4 +1,4 @@
-# IT'S COMING.
+A lot has happened since I created this project. No, I did not continue to develop a more advanced version of this RFID scanner.  But I did make these [cool air quality sensors](https://www.hackster.io/firmwareguru/blockchain-powered-sensor-system-using-helium-network-57779e) that interface with EOSIO (now Antelope) (Telos) blockchains.  The rest of below is for historical purposes only.
 
 ## RFID Scanner Device Software for Blockchain
 
